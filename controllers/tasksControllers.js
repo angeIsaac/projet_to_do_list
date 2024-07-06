@@ -25,10 +25,17 @@ const deleteTask = async (req, res) => {
     res.json(result);
 }
 
+const deleteManyTasks = async (req, res) => {
+    const {ids} = req.body;
+    const result = await taskRepo.removeMany(ids);
+    res.json(result);
+}
+
 
 module.exports = {
     getAllTask,
     putTask,
     postTAsk,
-    deleteTask
+    deleteTask,
+    deleteManyTasks
 }

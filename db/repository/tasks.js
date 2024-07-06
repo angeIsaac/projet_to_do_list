@@ -48,9 +48,19 @@ const remove = async id => {
     }
 }
 
+const removeMany = async ids => {
+    try { 
+        const result = await task.deleteMany({_id: { $in: ids }});
+        return result;
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 module.exports = {
     create, findOne, 
     getAll, 
     update, 
-    remove
+    remove,
+    removeMany
 }

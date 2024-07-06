@@ -50,8 +50,10 @@ const createAccount = async userData => {
     //  on enregistre un utilsateur dans une collection temporaire et on procede a l'activation de son compte 
     try {
         const newUser = await (new tmpUser(userData)).save();
+        // le lien de la page qui va nous qui va verifier son activation
         const link =` ${process.env.URL_PROTOCOL}://${process.env.CLIENT_URL}${process.env.ACTIVATION_PATH}?token=${newUser.token}&id=${newUser._id}`;
         const payload = {name: newUser.name, link}
+        // l'envoie de l'email
         const result = await sendEmail(newUser.email, "Verification d'email", payload, "./template/emailVerification.handlebars")
         return {status: 200, message: "creation reussie", data:{...result}}
     } catch (error) {
@@ -59,6 +61,7 @@ const createAccount = async userData => {
     }
 }
 
+// fonction d'activation du compte 
 const activation = async (payload) => {
     const {token, userId} = payload;
     const user = await tmpUser.findById(userId);
